@@ -13,6 +13,16 @@ def part2(groups):
     sum = 0
     for group in groups:
         seen = {}
+        for member in group:
+            for question in member:
+                if question not in seen:
+                    seen[question] = 0
+                seen[question] += 1
+            for key in seen:
+                if seen[key] == len(group):
+                    sum += 1
+    print(sum)
+    return sum
 
 
 with open("inputs/day6.txt") as f:
