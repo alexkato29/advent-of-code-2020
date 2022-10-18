@@ -21,6 +21,40 @@ class Bag:
         return toRet
 
 
+def substitute_bags(bags):
+    for bag in bags:
+        for replace in bags:
+            if bag in bags[replace]:
+                bags[replace].remove(bag)
+                for overwrite in bags[bag]:
+                    bags[replace].add(overwrite)
+
+
+def part1(lines):
+    total = 0
+    bags = {}
+    for rule in lines:
+        name = rule[0][:-5].strip()
+        contents = rule[1].strip()[:-1].split(", ")
+        for i in range(len(contents)):
+            if contents[i][0] == 1:
+                contents[i] = contents[i][1:-3].strip()
+            elif contents[i][0] != "n":
+                contents[i] = contents[i][1:-4].strip()
+            else:
+                contents[i] = ""
+        if contents[0] != "":
+            bags[name] = set(contents)
+        else:
+            bags[name] = set()
+
+    substitute_bags(bags)
+    for bag in bags:
+        print(bags[bag])
+    print(total)
+    return total
+
+"""
 def part1(lines):
     total = 0
     bags = set()
@@ -43,6 +77,7 @@ def part1(lines):
         print(bag)
     print(total)
     return total
+"""
 
 
 with open("inputs/day7.txt") as f:
